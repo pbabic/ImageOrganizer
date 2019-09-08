@@ -38,7 +38,8 @@ namespace ImageOrganizer
             this.txtCustom2.TextChanged += new System.EventHandler(this.DestinationFolderExample);
             this.txtCustom3.TextChanged += new System.EventHandler(this.DestinationFolderExample);
 
-            GuiHelper.help(txtSource, button1, "Choose folder or disk drive where your files can be found.");
+            BalloonTip.AttachBalloonTipToControl(txtSource, btnSourceHelp, "Choose folder or disk drive where your files can be found.");
+            BalloonTip.AttachBalloonTipToControl(txtDestination, btnDestinationHelp, "Choose destination folder or disk where your files will be copies or moved.");
 
 
         }

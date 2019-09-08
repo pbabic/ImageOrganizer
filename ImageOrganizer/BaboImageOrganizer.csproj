@@ -102,7 +102,7 @@
     <Compile Include="AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
+    <Compile Include="BalloonTip.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="FileProcessor.cs" />
     <Compile Include="FileData.cs" />

@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ImageOrganizer
 {
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Windows.Forms;
-    using System.Runtime.InteropServices;
-    using System.Threading;
-
 
     class BalloonTip
     {
@@ -63,23 +56,13 @@ namespace ImageOrganizer
             Marshal.DestroyStructure(pToolInfo, typeof(TOOLINFO));
             Marshal.FreeCoTaskMem(pToolInfo);
             if (focus)
-            {
-
                 control.Focus();
-                control.LostFocus += (x1, y1) =>
-                {
-
-                    Close();
-
-                };
-
-            }
 
             // uncomment bellow to make balloon close when user changes focus,
             // starts typing, resizes/moves parent window, minimizes parent window, etc
             // adjust which control events to subscribe to depending on the control over which the balloon tip is shown
 
-            /*control.Click += control_Event;
+            control.Click += control_Event;
             control.Leave += control_Event;
             control.TextChanged += control_Event;
             control.LocationChanged += control_Event;
@@ -92,7 +75,7 @@ namespace ImageOrganizer
                 parent = parent.Parent;
             }
             control.TopLevelControl.LocationChanged += control_Event;
-            ((Form)control.TopLevelControl).Deactivate += control_Event;*/
+            ((Form)control.TopLevelControl).Deactivate += control_Event;
 
             timer.AutoReset = false;
             timer.Elapsed += timer_Elapsed;
@@ -153,6 +136,17 @@ namespace ImageOrganizer
             WARNING,
             ERROR
         }
+
+        public static void AttachBalloonTipToControl(Control hoverAboveControl, Control activationControl, string message)
+        {
+
+            activationControl.Click += (x, y) =>
+            {
+                new BalloonTip("Help", message, hoverAboveControl, BalloonTip.ICON.INFO, 0, true);
+            };
+
+        }
+
     }
 
     static class User32
@@ -163,21 +157,4 @@ namespace ImageOrganizer
         public static extern IntPtr CreateWindowEx(uint dwExStyle, string lpClassName, string lpWindowName, uint dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr LPVOIDlpParam);
     }
 
-
-    class GuiHelper
-    {
-
-        public static void help(Control control, Button helpButton, string message)
-        {
-
-            helpButton.Click += (x, y) =>
-            {
-
-                new BalloonTip("Title", "Message", control, BalloonTip.ICON.INFO, 0, true);
-
-            };
-
-        }
-
-    }
 }
